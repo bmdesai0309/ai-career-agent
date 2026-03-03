@@ -42,7 +42,17 @@ async def run_agent():
 
                 try:
                     # Extract the Title and Description
-                    job_title = await navigator.page.locator(".job-details-jobs-unified-top-card__job-title").text_content()
+                    job_title_element = navigator.page.locator(".job-details-jobs-unified-top-card__job-title")
+                    job_title = await job_title_element.text_content() if await job_title_element.count() > 0 else "Unknown Title"
+                    
+                    # NEW: Extract the Company Name
+                    company_element = navigator.page.locator(".job-details-jobs-unified-top-card__company-name")
+                    company_name = await company_element.text_content() if await company_element.count() > 0 else "Unknown Company"
+                    
+                    # Clean up the text (removes weird spacing and newlines)
+                    job_title = job_title.strip()
+                    company_name = company_name.strip()
+                    
                     job_desc_element = navigator.page.locator("#job-details")
                     await job_desc_element.wait_for(timeout=5000)
                     job_description = await job_desc_element.text_content()
@@ -55,17 +65,19 @@ async def run_agent():
 
                     # 6. Deep AI Evaluation
                     # Truncate description slightly to keep local inference fast
-                    decision = evaluate_job(job_title.strip(), job_description.strip()[:2500])
+                    decision = evaluate_job(job_title, company_name, job_description.strip()[:2500])
                     
-                    print(f"  -> Match Score: {decision.get('match_score', 'N/A')}/100")
-                    print(f"  -> Reason: {decision.get('reason', 'N/A')}")
+                    print(f"  -> Company: {company_name}")
+                    print(f"  -> ATS Match: {decision.get('ats_percentage', 'N/A')}%")
+                    print(f"  -> Missing Skills: {', '.join(decision.get('missing_critical_skills', []))}")
+                    print(f"  -> Reason: {decision.get('decision_reason', 'N/A')}")
                     
                     if decision.get("should_apply"):
-                        print("  -> [Action] AI recommends applying! (Apply logic pending...)")
+                        print(f"  -> [Action] Passed {settings.MIN_ATS_SCORE}% threshold! Applying...")
                         applications_sent_today += 1
                         # TODO: Add the Easy Apply click logic here
                     else:
-                        print("  -> [Action] AI rejected this job. Skipping.")
+                        print("  -> [Action] ATS score too low. Skipping.")
 
                 except Exception as e:
                     print(f"[Error] Failed to process a job card: {e}")

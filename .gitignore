@@ -1,0 +1,25 @@
+# Python caches and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# Environment Variables
+.env
+
+# Playwright Browser Profile (CRITICAL: Keeps your LinkedIn login local)
+data/linkedin_profile/
+
+# Local Logs & Databases
+data/*.json
+*.log
+
+# IDE and OS specific files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

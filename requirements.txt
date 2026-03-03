@@ -1,0 +1,8 @@
+# Browser Automation (Let pip grab the latest version compatible with Python 3.14)
+playwright
+
+# Local AI Integration
+ollama
+
+# Environment variables
+python-dotenv

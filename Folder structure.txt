@@ -1,0 +1,28 @@
+ai-career-agent/
+│
+├── .gitignore                 # Tells Git to ignore local temp files and credentials
+├── README.md                  # Project documentation
+├── requirements.txt           # List of Python dependencies (playwright, ollama, etc.)
+├── main.py                    # The central entry point to run the application
+│
+├── config/                    # Configuration and environment variables
+│   ├── __init__.py
+│   └── settings.py            # Global variables (target job titles, daily limits)
+│
+├── agents/                    # The "Brain" - AI logic using local Llama 3.2
+│   ├── __init__.py
+│   ├── job_evaluator.py       # Logic for scoring jobs based on your GCP/AI goals
+│   └── content_creator.py     # Logic for generating LinkedIn feed posts
+│
+├── browser/                   # The "Body" - Playwright automation
+│   ├── __init__.py
+│   ├── linkedin_navigator.py  # Code to handle login, scrolling, and clicking
+│   └── stealth_utils.py       # Functions to mimic human behavior (delays, random mouse movements)
+│
+├── data/                      # Local storage (DO NOT commit this to Git)
+│   ├── linkedin_profile/      # Playwright's persistent browser session (cookies)
+│   └── job_logs.json          # A local ledger tracking which jobs you've applied to
+│
+└── utils/                     # General helper functions
+    ├── __init__.py
+    └── logger.py              # Custom logging to print clean output to your terminal

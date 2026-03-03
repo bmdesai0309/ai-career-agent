@@ -66,6 +66,8 @@ Cloud Data Engineer / OBT Solution
 - Engineered a notification mechanism in Cloud Composer (Airflow) to alert business teams in case of data discrepancies using Microsoft Teams Power Automate functionality.
 - Established a robust Data Governance framework by implementing Row-Level Security (RLS) and Column-Level Access Control (via Policy Tags) to protect sensitive PII data.
 - Developed a BigQuery Slot Monitoring dashboard to identify and refactor inefficient "heavy-hitter" queries, ensuring optimal reservation usage.
+- Built a multi-agent reinforcement learning framework using TensorFlow and Google Cloud AI Platform, allowing multiple agents to learn and interact with each other in a simulated environment.
+- Designed and trained a custom LLM to learn a complex decision-making model, which was then deployed on Google Cloud AI Platform using TensorFlow and Kubernetes.
 
 SKILLS:
 - Cloud: AWS, GCP

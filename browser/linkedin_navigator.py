@@ -62,13 +62,15 @@ class LinkedInNavigator:
             print("[System] Active login session verified.")
 
     async def search_jobs(self, query):
-        """Constructs the search URL and navigates to it."""
-        print(f"[Action] Searching for: '{query}' in {settings.LOCATION}")
+        """Constructs the search URL with a 24-hour filter and navigates to it."""
+        print(f"[Action] Searching for: '{query}' in {settings.LOCATION} (Past 24 Hours)")
         
         # Format the URL properly for LinkedIn
         encoded_query = query.replace(" ", "%20")
         encoded_location = settings.LOCATION.replace(" ", "%20")
-        url = f"https://www.linkedin.com/jobs/search/?keywords={encoded_query}&location={encoded_location}"
+        
+        # The f_TPR=r86400 parameter forces LinkedIn to only show jobs from the last 24 hours
+        url = f"https://www.linkedin.com/jobs/search/?keywords={encoded_query}&location={encoded_location}&f_TPR=r86400"
         
         await self.page.goto(url)
         await self.human_delay(4, 7)
@@ -76,7 +78,7 @@ class LinkedInNavigator:
         
         # Find all the job cards on the left-hand side
         job_cards = await self.page.locator(".job-card-container").all()
-        print(f"[System] Found {len(job_cards)} job listings on this page.")
+        print(f"[System] Found {len(job_cards)} fresh job listings on this page.")
         return job_cards
 
     async def close(self):
